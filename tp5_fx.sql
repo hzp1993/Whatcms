@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2016-10-14 12:00:30
+Date: 2016-10-27 17:52:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,14 +22,13 @@ DROP TABLE IF EXISTS `fx_article`;
 CREATE TABLE `fx_article` (
   `id` int(10) unsigned NOT NULL COMMENT 'ID',
   `author` varchar(128) NOT NULL COMMENT '作者',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of fx_article
 -- ----------------------------
-INSERT INTO `fx_article` VALUES ('18', '我是个管理员', '1');
+INSERT INTO `fx_article` VALUES ('18', '我是个管理员');
 
 -- ----------------------------
 -- Table structure for `fx_attribute`
@@ -158,7 +157,7 @@ CREATE TABLE `fx_category` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of fx_category
@@ -167,6 +166,7 @@ INSERT INTO `fx_category` VALUES ('2', '信息', 'xinxi', '', '0', '13', '0', '0
 INSERT INTO `fx_category` VALUES ('3', '新媒体世界', 'xinmeitishijie', '', '2', '13', '0', '0', 'index_article.htm', 'list_article.htm', 'show_article.htm', '', '', '', '', '100', '0');
 INSERT INTO `fx_category` VALUES ('4', 'n', 'n', '', '3', '12', '0', '0', 'index_article.htm', 'list_article.htm', 'show_article.htm', '', '', '', '', '100', '1');
 INSERT INTO `fx_category` VALUES ('5', '个人介绍', 'gerenjieshao', '', '0', '8', '0', '0', 'index_pege.htm', 'list_pege.htm', 'show_pege.htm', '', '', '', '', '100', '1');
+INSERT INTO `fx_category` VALUES ('6', '在线商城', '', '', '0', '14', '0', '0', 'index_product.htm', 'list_product.htm', 'show_product.htm', '', '', '', '', '100', '1');
 
 -- ----------------------------
 -- Table structure for `fx_config`
@@ -228,7 +228,8 @@ CREATE TABLE `fx_document` (
   `description` varchar(256) NOT NULL DEFAULT '' COMMENT '描述',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `status` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '状态',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `id` (`id`) USING BTREE
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
@@ -236,8 +237,7 @@ CREATE TABLE `fx_document` (
 -- ----------------------------
 -- Records of fx_document
 -- ----------------------------
-INSERT INTO `fx_document` VALUES ('17', '3', '12', '测试', '0', 'http://hzpcms.qiniudn.com/uploads/20161013/dda7620161013160746_7209.jpg', '1', '0', '0', '0', '0', '0', '@it码农 哥就是叼', '', '', '', '1476346247', '0', '1');
-INSERT INTO `fx_document` VALUES ('18', '3', '13', '测试', '0', 'http://hzpcms.qiniudn.com/uploads/20161014/a978020161014090935_5355.jpg', '1', '0', '0', '0', '0', '0', '你管我啊 丢', '', '', '', '1476407394', '0', '1');
+INSERT INTO `fx_document` VALUES ('18', '3', '13', '测试222', '0', 'http://hzpcms.qiniudn.com/uploads/20161014/a978020161014090935_5355.jpg', '1', '0', '0', '0', '0', '0', '你管我啊 丢', '很好很吊的标题', '', '', '1476407394', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `fx_images`
@@ -305,7 +305,7 @@ CREATE TABLE `fx_menus` (
   `display` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否显示',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of fx_menus
@@ -316,10 +316,10 @@ INSERT INTO `fx_menus` VALUES ('3', '1', 'setting/index', '配置列表', 'am-ic
 INSERT INTO `fx_menus` VALUES ('4', '3', 'setting/add', '添加配置', '', '配置列表', '100', '1', '1');
 INSERT INTO `fx_menus` VALUES ('5', '3', 'setting/edit', '修改配置', 'am-icon-pencil', '配置列表', '100', '1', '1');
 INSERT INTO `fx_menus` VALUES ('6', '3', 'setting/del', '删除配置', ' am-icon-trash-o', '配置列表', '100', '1', '1');
-INSERT INTO `fx_menus` VALUES ('7', '1', 'setting/menus', '菜单管理', 'am-icon-th', '系统', '3', '1', '1');
-INSERT INTO `fx_menus` VALUES ('8', '7', 'setting/menus_add', '添加菜单', '', '菜单管理', '100', '1', '1');
-INSERT INTO `fx_menus` VALUES ('9', '7', 'setting/menus_edit', '修改菜单', '', '菜单管理', '100', '1', '1');
-INSERT INTO `fx_menus` VALUES ('10', '7', 'setting/menus_del', '删除菜单', '', '菜单管理', '100', '1', '1');
+INSERT INTO `fx_menus` VALUES ('7', '1', 'menus/index', '菜单管理', 'am-icon-th', '系统', '3', '1', '1');
+INSERT INTO `fx_menus` VALUES ('8', '7', 'menus/add', '添加菜单', '', '菜单管理', '100', '1', '1');
+INSERT INTO `fx_menus` VALUES ('9', '7', 'menus/edit', '修改菜单', '', '菜单管理', '100', '1', '1');
+INSERT INTO `fx_menus` VALUES ('10', '7', 'menus/del', '删除菜单', '', '菜单管理', '100', '1', '1');
 INSERT INTO `fx_menus` VALUES ('11', '0', 'users/index', '用户', 'am-icon-user-md', '', '4', '1', '1');
 INSERT INTO `fx_menus` VALUES ('12', '11', 'users/index', '用户管理', 'am-icon-user', '用户', '100', '1', '1');
 INSERT INTO `fx_menus` VALUES ('14', '12', 'users/add', '添加用户', '', '用户管理', '100', '1', '1');
@@ -327,14 +327,14 @@ INSERT INTO `fx_menus` VALUES ('15', '11', 'management/index', '权限管理', '
 INSERT INTO `fx_menus` VALUES ('16', '15', 'management/add', ' 添加权限', '', '权限管理', '100', '1', '1');
 INSERT INTO `fx_menus` VALUES ('17', '15', 'management/edit', '修改权限', '', '权限管理', '100', '1', '1');
 INSERT INTO `fx_menus` VALUES ('18', '15', 'management/del', '删除权限', '', '权限管理', '100', '1', '1');
-INSERT INTO `fx_menus` VALUES ('19', '15', 'management/group', '权限分组', '', '权限管理', '100', '1', '1');
+INSERT INTO `fx_menus` VALUES ('19', '15', 'management/group1', '权限分组', '', '权限管理', '100', '1', '1');
 INSERT INTO `fx_menus` VALUES ('20', '12', 'users/edit', '修改用户', '', '用户管理', '100', '1', '1');
 INSERT INTO `fx_menus` VALUES ('21', '0', 'index/index', '首页', 'am-icon-home', '', '1', '1', '1');
 INSERT INTO `fx_menus` VALUES ('24', '1', 'database/backups', '数据库备份/还原', 'am-icon-database', '系统', '100', '1', '0');
 INSERT INTO `fx_menus` VALUES ('25', '0', 'weixin/index', '微信', 'am-icon-weixin', '', '2', '1', '1');
 INSERT INTO `fx_menus` VALUES ('26', '1', 'model/index', '模型管理', 'am-icon-cubes', '系统', '4', '1', '1');
-INSERT INTO `fx_menus` VALUES ('27', '28', 'categorys/index', '栏目管理', 'am-icon-bars', '内容', '1', '1', '1');
-INSERT INTO `fx_menus` VALUES ('28', '0', 'categorys/index', '内容', 'am-icon-file-text', '', '1', '1', '1');
+INSERT INTO `fx_menus` VALUES ('27', '28', 'category/index', '栏目管理', 'am-icon-bars', '内容', '1', '1', '1');
+INSERT INTO `fx_menus` VALUES ('28', '0', 'category/index', '内容', 'am-icon-file-text', '', '1', '1', '1');
 INSERT INTO `fx_menus` VALUES ('29', '28', 'content/index', '内容管理', '', '内容', '100', '1', '1');
 
 -- ----------------------------
@@ -351,12 +351,13 @@ CREATE TABLE `fx_models` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   `status` tinyint(1) unsigned DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of fx_models
 -- ----------------------------
 INSERT INTO `fx_models` VALUES ('13', 'article', '文章模型', '0', '1476407131', '1476407155', '100', '1');
+INSERT INTO `fx_models` VALUES ('14', 'product', '商品模型', '0', '1477537046', '0', '100', '1');
 
 -- ----------------------------
 -- Table structure for `fx_pege`
@@ -404,5 +405,5 @@ CREATE TABLE `fx_user` (
 -- ----------------------------
 -- Records of fx_user
 -- ----------------------------
-INSERT INTO `fx_user` VALUES ('1', 'admin', 'L-F1Ep0FtGIoFhTzh_P-JoHeX7twIWqT', 'be98e5a3e4df414d66cbd66baaead4f0', '0', '0000-00-00', 'admin@qq.com', '', '1000', '10', '1', '0', '0', '127.0.0.1', '1476405928');
+INSERT INTO `fx_user` VALUES ('1', 'admin', 'L-F1Ep0FtGIoFhTzh_P-JoHeX7twIWqT', 'be98e5a3e4df414d66cbd66baaead4f0', '0', '0000-00-00', 'admin@qq.com', '', '1000', '10', '1', '0', '0', '127.0.0.1', '1477535417');
 INSERT INTO `fx_user` VALUES ('13', '测试', 'L-F1Ep0FtGIoFhTzh_P-JoHeX7twIWqT', 'be98e5a3e4df414d66cbd66baaead4f0', '0', '0000-00-00', 'ces@163.com', '', '0', '10', '1', '127.0.0.1', '1471936757', '127.0.0.1', '1472007696');

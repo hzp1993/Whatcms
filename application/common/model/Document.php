@@ -27,7 +27,7 @@ class Document extends Model
         //视图查询数据
         $result = Db::view('document', 'id,cid,moduleid,title,flags,view,create_time,sort,status')
             ->view('category', 'name', 'category.id = document.cid')
-            ->where(['moduleid' => $category_data['moduleid'], 'cid' => ['in', $cid_list]])
+            ->where(['moduleid' => $category_info['moduleid'], 'cid' => ['in', $cid_list]])
             ->paginate($limit,false,['query' => request()->param()]);
         return $result;
     }
