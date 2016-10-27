@@ -1,0 +1,4 @@
+<div class="am-form-group">
+  <label for="{$attribute['type']}">{$attribute['title']} </label>
+  <div class="am-form-inline"><input class="am-form-field" id="uploadOne" name="attribute[{$attribute['name']}]" value="{$attribute['value']|default=$defaults}" style="width:75%;"/> <div class="am-btn am-btn-primary am-radius am-btn-sm up-picture-btn"> <span>添加图片</span><input id="fileupload" type="file" name="mypic" data-url="{:url('attachment/upload')}"></div> <a href="javascript:;" onclick="openWindow(this);" data-url="{:url('attachment/browseFile')}" title="站内图片" class="am-btn am-btn-success am-radius am-btn-sm ">站内图片</a></div>
+</div>

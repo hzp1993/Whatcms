@@ -1,0 +1,54 @@
+{extend name="common/index"/}
+{block name="content"}
+<form action="{:url('')}" method="POST" role="form" class="am-form" id="am-form-validator">
+    <legend><span class="am-icon-plus"></span> {if get_action()=='add'}添加{else/}修改{/if}菜单</legend>
+    <input type="hidden" name="id" value="{$vo.id|default=''}">
+    <div class="am-form-group">
+        <label for="url">URL <small>Controller/Action</small></label>
+        <input type="text" id="url" class="am-input-sm" name="url" placeholder="请输入菜单URL" required value="{$vo.url|default=''}">
+    </div>
+    <div class="am-form-group">
+        <label for="name">别名 </label>
+        <input type="text" id="name" class="am-input-sm" name="name" placeholder="请输入别名" required value="{$vo.name|default=''}">
+    </div>
+    <div class="am-form-group">
+        <label for="pid">上级菜单 </label>
+        <select name="pid">
+            {foreach name="menus" item="menus_vo"}
+            <option value="{$menus_vo.id}" {eq name="vo.pid|default=0" value="$menus_vo['id']"}selected{/eq}>{$menus_vo.name}</option>
+            {/foreach}
+        </select>
+    </div>
+    <div class="am-form-group">
+        <label for="group_name">分组 </label>
+        <input type="text" id="group_name" class="am-input-sm" name="group_name" value="{$vo.group_name|default=''}">
+    </div>
+    <div class="am-form-group">
+        <label for="icon">图标 </label>
+        <input type="text" id="icon" class="am-input-sm" name="icon" placeholder="amazeui图标库，如：home" value="{$vo.icon|default=''}">
+    </div>
+    <div class="am-form-group">
+        <label for="sort">排序 </label>
+        <input type="text" id="sort" class="am-input-sm" name="sort" value="{$vo['sort']|default=100}">
+    </div>
+    <div class="am-form-group">
+        <label for="display">是否显示 </label>
+        <select name="display">
+            {php}$status_list = set_status();{/php}
+            {foreach name="status_list" item="status_vo"}
+            <option value="{$key}" {eq name="vo.display|default=1" value="$key"}selected{/eq}>{$status_vo}</option>
+            {/foreach}
+        </select>
+    </div>
+    <div class="am-form-group">
+        <label for="status">状态 </label>
+        <select name="status">
+            {php}$status_list = set_status();{/php}
+            {foreach name="status_list" item="status_vo"}
+            <option value="{$key}" {eq name="vo.status|default=1" value="$key"}selected{/eq}>{$status_vo}</option>
+            {/foreach}
+        </select>
+    </div>
+    <button type="submit" onclick="return submitForm();" class="am-btn am-btn-primary am-btn-sm am-icon-check"> 确认添加</button>
+</form>
+{/block}

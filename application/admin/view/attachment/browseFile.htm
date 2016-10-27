@@ -1,0 +1,56 @@
+{extend name="common/openWindow"/}
+{block name="content"}
+<div id="PicturePreviewDiv" class="bf_picture_preview">
+    <a href="javascript:;" onClick="document.getElementById('PicturePreviewDiv').style.display='none';"><img src='/xyhcms/App/Manage/View/Public/images/nopic.png' id='PictureSrc' border='0' alt='单击关闭预览'></a>
+</div>
+<div class="am-g" style="margin-top: 10px;">
+
+    <div class="am-u-sm-12 am-file">
+        {if !empty($_GET['y']) && empty($_GET['m'])}
+        <div class="am-legend" style="color:#337ab7;">
+            <a href="{:url()}">↑返回上层</a>
+        </div>
+            {foreach name="ymdlist" item="months"}
+                <div class="am-u-sm-2">
+                    <a href="{:url()}?y={:input('y')}&m={$months['m']}">
+                        <div class="text-content"><i class="am-icon-folder am-icon-increase"></i></div>
+                        <div class="text-content">{$months['m']}</div>
+                    </a>
+                </div>
+            {/foreach}
+        {elseif !empty($_GET['m']) && !empty($_GET['y'])}
+        <div class="am-legend" style="color:#337ab7;">
+            <a href="{:url()}?y={$_GET['y']}">↑返回上层</a>
+        </div>
+        <table class="am-table am-table-hover">
+            <thead>
+                <tr>
+                    <th>图片名称</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="layer-photos-demo" class="layer-photos-demo">
+            {foreach name="ymdlist" item="days"}
+                <tr>
+                    <td>{:str2sub($days.name, 50)}</td>
+                    <td>{$days.create_time|time_format}</td>
+                    <td><a href="">选择</a> <a href="javascript:;" data-url="{$days['name']}" onclick="preview(this)">预览</a></td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+        {$ymdlist->render()}
+        {else/}
+            {foreach name="ymdlist" item="years"}
+            <div class="am-u-sm-2">
+                <a href="{:url()}?y={$years['y']}">
+                    <div class="text-content"><i class="am-icon-folder am-icon-increase"></i></div>
+                    <div class="text-content">{$years['y']}</div>
+                </a>
+            </div>
+            {/foreach}
+        {/if}
+    </div>
+</div>
+{/block}

@@ -1,0 +1,57 @@
+{extend name="common/index"/}
+{block name="content"}
+<form id="formid">
+<div class="am-legend">
+    <span class="am-icon-bars"></span> 模块列表
+</div>
+<div class="am-btn-toolbar am-margin-top am-margin-bottom-sm">
+    <a href="{:url('add')}" class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus"> 添加模块</a>
+</div>
+<table class="am-table am-table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>{:lang('Name')}</th>
+        <th>{:lang('Title')}</th>
+        <th>{:lang('Create Time')}</th>
+        <th>{:lang('Sort')}</th>
+        <th>{:lang('Status')}</th>
+        <th width="300">{:lang('Management')}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach name="list" item="models"}
+    <tr>
+        <td>{$models.id}</td>
+        <td>{$models.name}</td>
+        <td>{$models.title}</td>
+        <td>{$models.create_time|time_format}</td>
+        <td>{$models.sort}</td>
+        <td>{$models.status|set_status}</td>
+        <td>
+            <div class="am-btn-group am-btn-group-xs">
+                <a class="am-btn am-btn-default am-radius" title="字段管理" href="{:url('attribute', ['mod' => $models['id']])}">字段管理</a>
+                <a class="am-btn am-btn-default am-icon-pencil am-radius" title="编辑" href="{:url('edit', ['id' => $models['id']])}"></a>
+                <span class="am-btn am-btn-default am-icon-trash-o am-radius" data-del="{id: {$models.id}, url: '{:url('del')}', target:'del'}" title="删除"></span>
+            </div>
+        </td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+</form>
+{/block}
+{block name="md"}
+<div class="am-modal am-modal-confirm" tabindex="-1" id="del">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">删除确认</div>
+        <div class="am-modal-bd">
+            你将删除选中栏目，此删除不可逆！请谨慎操作！
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+{/block}
