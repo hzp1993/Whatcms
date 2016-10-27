@@ -1,0 +1,44 @@
+{extend name="common/index"/}
+{block name="content"}
+<form id="formid">
+<div class="am-legend">
+    <span class="am-icon-bars"></span> {:lang('Config List')}
+</div>
+<div class="am-btn-toolbar am-margin-top am-margin-bottom-sm">
+    <a href="{:url('backups')}"  class="am-btn am-btn-success am-btn-xs am-radius"> 备份数据</a>
+</div>
+<table class="am-table am-table-hover">
+    <thead>
+    <tr>
+        <th>{:lang('Name')}</th>
+        <th>{:lang('volume')}</th>
+        <th>{:lang('Date Size')}</th>
+        <th>{:lang('The compression')}</th>
+        <th>{:lang('The backup time')}</th>
+        <th width="200">{:lang('Management')}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="list" id="table"}
+    <tr>
+        <td>{$table.time|date='Ymd-His',###}</td>
+        <td>{$table.part}</td>
+        <td>{$table.size|format_bytes}</td>
+        <td>{$table.compress}</td>
+        <td>{$key}</td>
+        <td>
+            <div class="am-btn-group am-btn-group-xs">
+                <a class="am-btn am-btn-default am-radius" title="还原" href="{:url('import', ['time' => $table['time']])}">还原</a>
+                <a class="am-btn am-btn-default am-radius" title="删除" href="{:url('del', ['time' => $table['time']])}">删除</a>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+</form>
+<script type="text/javascript">
+
+
+</script>
+{/block}

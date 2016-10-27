@@ -1,0 +1,33 @@
+{extend name="common/index"/}
+{block name="content"}
+<form action="{:url('')}" method="POST" role="form" class="am-form" id="am-form-validator">
+    <legend><span class="am-icon-plus"></span> {if get_action()=='add'}添加{else/}修改{/if}用户</legend>
+    <input type="hidden" name="uid" value="{$vo.uid|default=''}">
+    <div class="am-form-group">
+        <label for="username">用户名 </label>
+        <input type="text" id="username" class="am-input-sm" name="username" placeholder="请输入用户名" required value="{$vo.username|default=''}">
+    </div>
+    <div class="am-form-group">
+        <label for="password">密码 </label>
+        <input type="password" id="password" class="am-input-sm" name="password" placeholder="请输入密码" {if get_action()=='add'} required {/if} value="">
+    </div>
+    <div class="am-form-group">
+        <label for="repassword">确认密码 </label>
+        <input type="password" id="repassword" class="am-input-sm" name="repassword" placeholder="请输入确认密码"  value="">
+    </div>
+    <div class="am-form-group">
+        <label for="email">邮箱 </label>
+        <input type="text" id="email" class="am-input-sm" name="email" placeholder="请输入邮箱" required  value="{$vo.email|default=''}">
+    </div>
+    <div class="am-form-group">
+        <label for="status">状态 </label>
+        <select name="status">
+            {php}$status_list = set_status();{/php}
+            {foreach name="status_list" item="status_vo"}
+            <option value="{$key}" {eq name="vo.status|default=1" value="$key"}selected{/eq}>{$status_vo}</option>
+            {/foreach}
+        </select>
+    </div>
+    <button type="submit" onclick="return submitForm();" class="am-btn am-btn-primary am-btn-sm am-icon-check"> 确认添加</button>
+</form>
+{/block}

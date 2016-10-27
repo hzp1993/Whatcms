@@ -1,0 +1,47 @@
+{extend name="common/index"/}
+{block name="content"}
+<form action="{:url('')}" method="POST" role="form" class="am-form" id="am-form-validator">
+    <input type="hidden" name="group_id" value="{:input('group_id', 'get')}">
+    <div class="am-tabs">
+        <ul class="am-tabs-nav am-nav am-nav-tabs">
+            <li {if get_action()=='access'}class="am-active"{/if}><a href="{:url('access', ['group_id' => input('group_id', 'get')])}">访问权限</a></li>
+            <li {if get_action()=='seek'}class="am-active"{/if}><a href="{:url('seek', ['group_id' => input('group_id', 'get')])}">成员授权</a></li>
+        </ul>
+    </div>
+    {foreach name="node_list" item="node"}
+    <dl class="am-check">
+        <dt><label class="checkbox"><input type="checkbox" class="auth_rules rules_all" name="rules[]" value="{$main_rules[$node['url']]}"> {$node.title}管理</label></dt>
+        <dd>
+            {present name="node['child']"}
+                {foreach name="node['child']" item="child"}
+                <div class="rule_check">
+                    <div class="checkbox">
+                        <label class="checkbox">
+                            <input type="checkbox" class="auth_rules rules_row" name="rules[]" value="{$child_rules[$child['url']]}"
+                            > {$child.title}
+                        </label>
+                    </div>
+                    {notempty name="child['operator']"}
+                        <span style="margin-right: 20px;"></span>
+                        <span class="child_row">
+                            {foreach name="child['operator']" item="op"}
+                            <label class="am-checkbox-inline checkbox">
+                                <input type="checkbox" class="auth_rules" name="rules[]"
+                                       value="{$child_rules[$op['url']]}"> {$op.title}
+                            </label>
+                            {/foreach}
+                        </span>
+                    {/notempty}
+                </div>
+                {/foreach}
+            {/present}
+        </dd>
+    </dl>
+    {/foreach}
+    <button type="submit" onclick="return submitForm();"  class="am-btn am-btn-primary am-btn-sm am-icon-check"> 确认添加</button>
+</form>
+<script type="text/javascript">
+    var rules = [{$this_group.rules}];
+</script>
+{/block}
+

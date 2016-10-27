@@ -1,0 +1,47 @@
+{extend name="common/index"/}
+{block name="content"}
+<form id="formid">
+<div class="am-legend">
+    <span class="am-icon-bars"></span> {:lang('Config List')}
+</div>
+<div class="am-btn-toolbar am-margin-top am-margin-bottom-sm">
+    <a href="javascript:;" data-url="{:url('backups')}" class="am-btn am-btn-success am-btn-xs am-radius" onclick="datebaseForm(this)"> 开始备份</a>
+    <a href="javascript:;" data-url="{:url('optimize')}" class="am-btn am-btn-success am-btn-xs am-radius" onclick="datebaseForm(this)"> 优化表</a>
+    <a href="javascript:;" data-url="{:url('repair')}" class="am-btn am-btn-success am-btn-xs am-radius" onclick="datebaseForm(this)"> 修复表</a>
+    <a href="{:url('reduction')}" class="am-btn am-btn-success am-btn-xs am-radius"> 还原数据</a>
+</div>
+<table class="am-table am-table-hover">
+    <thead>
+    <tr>
+        <th width="60" align="center"><input type="checkbox" class="check-all" checked="checked" style="margin-left: 16px;"> </th>
+        <th>{:lang('Name')}</th>
+        <th>{:lang('Type')}</th>
+        <th>{:lang('Date Num')}</th>
+        <th>{:lang('Date Size')}</th>
+        <th>{:lang('Coding')}</th>
+        <th>{:lang('Create Time')}</th>
+        <th width="200">{:lang('Management')}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="list" id="table"}
+    <tr>
+        <td align="center"><input class="ids" checked="chedked" type="checkbox" name="tables[]" value="{$table.name}"> </td>
+        <td>{$table.name}</td>
+        <td>{$table.engine}</td>
+        <td>{$table.rows}</td>
+        <td>{$table.data_length|format_bytes}</td>
+        <td>{$table.collation}</td>
+        <td>{$table.create_time}</td>
+        <td>
+            <div class="am-btn-group am-btn-group-xs">
+                <a class="am-btn am-btn-default am-radius" title="优化表" href="{:url('optimize', ['tables' => $table['name']])}">优化表</a>
+                <a class="am-btn am-btn-default am-radius" title="修复表" href="{:url('repair', ['tables' => $table['name']])}">修复表</a>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+</form>
+{/block}

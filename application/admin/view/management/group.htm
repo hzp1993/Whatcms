@@ -1,0 +1,18 @@
+{extend name="common/index"/}
+{block name="content"}
+<form action="{:url('')}" method="POST" role="form" class="am-form" id="am-form-validator">
+    <input type="hidden" name="uid" value="{:input('uid', 'get')}">
+    <legend>{:input('auth_name', 'get')}分配权限组</legend>
+    <div class="am-form-group">
+        <select name="group_id">
+            <option>选择权限</option>
+            {foreach name="group_list" item="group"}
+                <option value="{$key}" {eq name="this_access" value="$key"}selected{/eq}>{$group}</option>
+            {/foreach}
+        </select>
+    </div>
+    <button type="submit" onclick="return submitForm();"  class="am-btn am-btn-primary am-btn-sm am-icon-check"> 确认添加</button>
+</form>
+
+{/block}
+
