@@ -15,12 +15,7 @@ class Category extends Common
      */
     public function index()
     {
-        $list = cache('category');
-        if(!$list)
-        {
-            $list = CategoryModel::order('sort desc')->select();
-            cache('category', $list);
-        }
+        $list = CategoryModel::order('sort desc')->select();
         $this->assign('list', unlimitedForLevel($list));
         cookie('__forward__', $_SERVER['REQUEST_URI']);
         return $this->fetch();
@@ -36,8 +31,13 @@ class Category extends Common
         if(Request::instance()->isPost())
         {
             $data = Request::instance()->except(['id'], 'post');
-            $msg = CategoryModel::add($data);
-            return $msg;
+            $categoryModel = new CategoryModel();
+            if($categoryModel->allowField(true)->validate(true)->save($data))
+            {
+                return alert('操作成功', cookie('__forward__'));
+            }else{
+                return alert($categoryModel->getError(), '', 0);
+            }
         }
         $tree = new Tree();
         $category = CategoryModel::get_category_tree();
@@ -55,8 +55,13 @@ class Category extends Common
         if(Request::instance()->isPost())
         {
             $data = Request::instance()->post();
-            $msg = CategoryModel::edit($data);
-            return $msg;
+            $categoryModel = new CategoryModel();
+            if($categoryModel->allowField(true)->validate(true)->update($data))
+            {
+                return alert('操作成功', cookie('__forward__'));
+            }else{
+                return alert($categoryModel->getError(), '', 0);
+            }
         }
         $vo = CategoryModel::where(['id' => $id])->find();
         $category = CategoryModel::get_category_tree();

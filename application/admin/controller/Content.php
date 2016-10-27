@@ -18,7 +18,6 @@ class Content extends Common
 
         //获取文章列表
         $article_list = $documentModel->get_DocumentList($cid, cache_config('ADMIN_PAGE_ROWS'), null);
-        dump($article_list);
         $this->assign('contentlist', $article_list);
         return $this->fetch();
     }

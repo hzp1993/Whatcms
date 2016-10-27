@@ -24,10 +24,10 @@ class Document extends Model
         $category_data = Db::name('category')->where(['moduleid' => $category_info['moduleid']])->select();
         $cid_list = get_category_childId($category_data, $cid);
         $cid_list[] = $cid;
-
         //视图查询数据
         $result = Db::view('document', 'id,cid,moduleid,title,flags,view,create_time,sort,status')
             ->view('category', 'name', 'category.id = document.cid')
+            ->where(['moduleid' => $category_data['moduleid'], 'cid' => ['in', $cid_list]])
             ->paginate($limit,false,['query' => request()->param()]);
         return $result;
     }
