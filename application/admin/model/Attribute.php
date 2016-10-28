@@ -253,5 +253,19 @@ sql;
         return $result !== false;
     }
 
+    /**
+     * [ get_AttributeList 获取当前模型的字段]
+     * @author ItWhat(964114968@qq.com)
+     * @param  void
+     */
+    public static function get_AttributeList($moduleid)
+    {
+        $map = [
+            'is_show'    => ['eq', 1],
+            'doc_type'   => ['in', '0,'.$moduleid],
+        ];
+        $result =  Attribute::where($map)->select();
+        return $result;
+    }
 
 }
