@@ -46,6 +46,11 @@ class Document extends Model
         return $result;
     }
 
+
+    public function get_AssociatedModel($modelname = '')
+    {
+        return $this->hasOne($modelname, 'id');
+    }
     /**
      * 内容添加 通用
      * @param null $data
