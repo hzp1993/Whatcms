@@ -24,60 +24,27 @@ class Content extends Common
 
     public function edit($id = '')
     {
-        $documentModel = new Document();
+
         $type = input('get.type');
+
 
         if(Request::instance()->isPost())
         {
-            $data = Request::instance()->post();
+            
 
         }
+        $documentModel = new Document;
         //获取该分类
         $category_info = Category::where('id', $type)->find();
         //获取该分类模型
         $model_type = Models::where('id', $category_info['moduleid'])->find();
-        //组合条件
-        $map = [
-            'is_show'    => ['eq', 1],
-            'doc_type'   => ['in', '0,'.$category_info['moduleid']],
-        ];
-        $attribute_list = Attribute::where($map)->select();
         //获取当前文章数据
         $item = $documentModel->get_InfoData($model_type['name'], $id);
         $this->assign('item', $item);
-        $this->assign('attributelist', $attribute_list);
+        $this->assign('attributelist', Attribute::get_AttributeList($model_type['id']));
         $this->assign('categorylist', Category::get_category_tree(false, $category_info['moduleid']));
         return $this->fetch();
 
     }
-
-
-//    public function add()
-//    {
-//        $cid = input('get.type');
-////        if(!$cid) $this->error(lang('Parameter error'));
-//        if(Request::instance()->isPost())
-//        {
-//            $data = Request::instance()->except(['id'], 'post');
-//            Hzp::addData($data);
-//
-//        }
-//        //获取该分类
-//        $category_info = Category::where('id', $cid)->find();
-//        //获取该分类模型
-//        $model_type = Models::where('id', $category_info['moduleid'])->find();
-//
-//        //组合条件
-//        $map = [
-//            'is_show'    => ['eq', 1],
-//            'doc_type'   => ['in', '0,'.$category_info['moduleid']],
-//        ];
-//
-//        $attribute_list = Attribute::where($map)->select();
-//        $this->assign('categorylist', Category::get_category_tree(false, $category_info['moduleid']));
-//        $this->assign('attributelist', $attribute_list);
-//        return $this->fetch('edit');
-//    }
-
 }
 
