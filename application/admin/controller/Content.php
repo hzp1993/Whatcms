@@ -10,6 +10,11 @@ use app\admin\model\Attribute;
 use app\admin\controller\Common;
 class Content extends Common
 {
+    /**
+     * [ index 内容列表]
+     * @author ItWhat(964114968@qq.com)
+     * @param  mixed
+     */
     public function index()
     {
         $documentModel = new Document();
@@ -22,29 +27,31 @@ class Content extends Common
         return $this->fetch();
     }
 
-    public function edit($id = '')
-    {
-
-        $type = input('get.type');
-
-
-        if(Request::instance()->isPost())
-        {
-            
-
-        }
+    /**
+     * [ toEdit 添加|修改模版显示]
+     * @author ItWhat(964114968@qq.com)
+     * @param  mixed
+     */
+    public function toEdit($id, $type){
         $documentModel = new Document;
         //获取该分类
         $category_info = Category::where('id', $type)->find();
         //获取该分类模型
         $model_type = Models::where('id', $category_info['moduleid'])->find();
-        //获取当前文章数据
-        $item = $documentModel->get_InfoData($model_type['name'], $id);
-        $this->assign('item', $item);
+        if($id > 0){
+            $item = $documentModel->get_InfoData($model_type['name'], $id);
+            $this->assign('item', $item);
+        }
         $this->assign('attributelist', Attribute::get_AttributeList($model_type['id']));
         $this->assign('categorylist', Category::get_category_tree(false, $category_info['moduleid']));
-        return $this->fetch();
+        return $this->fetch('edit');
+    }
+
+    public function add()
+    {
 
     }
+
+
 }
 

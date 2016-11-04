@@ -69,6 +69,8 @@ class Route
     private static $domainRule;
     // 当前域名
     private static $domain;
+    // 当前路由执行过程中的参数
+    private static $option = [];
 
     /**
      * 注册变量规则
@@ -302,12 +304,12 @@ class Route
             $rule                     = substr($rule, 0, -1);
         }
 
-        if ('/' != $rule) {
+        if ('/' != $rule || $group) {
             $rule = trim($rule, '/');
         }
         $vars = self::parseVar($rule);
         if (isset($name)) {
-            $key = $group ? $group . '/' . $rule : $rule;
+            $key = $group ? $group . ($rule ? '/' . $rule : '') : $rule;
             self::name(strtolower($name), [$key, $vars, self::$domain]);
         }
         if ($group) {
@@ -339,6 +341,27 @@ class Route
                 }
             }
         }
+    }
+
+    /**
+     * 设置当前执行的参数信息
+     * @access public
+     * @param array    $options 参数信息
+     * @return mixed
+     */
+    protected static function setOption($options = [])
+    {
+        self::$option[] = $options;
+    }
+
+    /**
+     * 获取当前执行的所有参数信息
+     * @access public
+     * @return array
+     */
+    public static function getOption()
+    {
+        return self::$option;
     }
 
     /**
@@ -425,10 +448,11 @@ class Route
                         $options['complete_match'] = true;
                         $key                       = substr($key, 0, -1);
                     }
+                    $key    = trim($key, '/');
                     $vars   = self::parseVar($key);
                     $item[] = ['rule' => $key, 'route' => $route, 'var' => $vars, 'option' => $options, 'pattern' => $patterns];
                     // 设置路由标识
-                    self::name($route, [$name . '/' . $key, $vars, self::$domain]);
+                    self::name($route, [$name . ($key ? '/' . $key : ''), $vars, self::$domain]);
                 }
                 self::$rules['*'][$name] = ['rule' => $item, 'route' => '', 'var' => [], 'option' => $option, 'pattern' => $pattern];
             }
@@ -578,7 +602,8 @@ class Route
                 } elseif (strpos($val[1], ':id') && isset($option['var'][$rule])) {
                     $val[1] = str_replace(':id', ':' . $option['var'][$rule], $val[1]);
                 }
-                $item = ltrim($rule . $val[1], '/');
+                $item           = ltrim($rule . $val[1], '/');
+                $option['rest'] = $key;
                 self::rule($item . '$', $route . '/' . $val[2], $val[0], $option, $pattern);
             }
         }
@@ -637,7 +662,7 @@ class Route
      * rest方法定义和修改
      * @access public
      * @param string    $name 方法名称
-     * @param array     $resourece 资源
+     * @param array     $resource 资源
      * @return void
      */
     public static function rest($name, $resource = [])
@@ -833,6 +858,7 @@ class Route
                 $rule = self::getRouteExpress($item);
             }
             if (!empty($rule['route']) && self::checkOption($rule['option'], $request)) {
+                self::setOption($rule['option']);
                 return self::parseRule($item, $rule['route'], $url, $rule['option']);
             }
         }
@@ -896,7 +922,7 @@ class Route
                 if (is_string($str) && $str && 0 !== strpos(str_replace('|', '/', $url), $str)) {
                     continue;
                 }
-
+                self::setOption($option);
                 $result = self::checkRoute($request, $rule, $url, $depr, $key, $option);
                 if (false !== $result) {
                     return $result;
@@ -911,6 +937,8 @@ class Route
                 if ($group) {
                     $rule = $group . ($rule ? '/' . ltrim($rule, '/') : '');
                 }
+
+                self::setOption($option);
                 if (isset($options['bind_model']) && isset($option['bind_model'])) {
                     $option['bind_model'] = array_merge($options['bind_model'], $option['bind_model']);
                 }
@@ -1184,7 +1212,9 @@ class Route
                 $find   = false;
                 foreach ($path as $val) {
                     $item[] = $val;
-                    if (is_file($dir . DS . str_replace('.', DS, $val) . $suffix . EXT)) {
+                    $file   = $dir . DS . str_replace('.', DS, $val) . $suffix . EXT;
+                    $file   = pathinfo($file, PATHINFO_DIRNAME) . DS . Loader::parseName(pathinfo($file, PATHINFO_FILENAME), 1) . EXT;
+                    if (is_file($file)) {
                         $find = true;
                         break;
                     } else {
@@ -1370,7 +1400,6 @@ class Route
             foreach ($matches as $key => $val) {
                 if (false !== strpos($route, ':' . $key)) {
                     $route = str_replace(':' . $key, $val, $route);
-                    unset($matches[$key]);
                 }
             }
         }

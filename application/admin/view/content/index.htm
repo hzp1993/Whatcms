@@ -5,7 +5,7 @@
     <span class="am-icon-bars"></span> 栏目列表
 </div>
 <div class="am-btn-toolbar am-margin-top am-margin-bottom-sm">
-    <a href="{:url('add')}?type={:input('type', 'get')}" class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus"> 添加栏目</a>
+    <a href="{:url('toEdit')}?type={:input('type', 'get')}&id=0" class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus"> 添加栏目</a>
 </div>
 <table class="am-table am-table-hover">
     <thead>
@@ -30,7 +30,7 @@
         <td>{$attrName.status|set_status}</td>
         <td>
             <div class="am-btn-group am-btn-group-xs">
-                <a class="am-btn am-btn-default am-icon-pencil am-radius" title="编辑" href="{:url('edit', ['id' => $attrName['id']])}?type={:input('type', 'get')}"></a>
+                <a class="am-btn am-btn-default am-icon-pencil am-radius" title="编辑" href="{:url('toEdit', ['id' => $attrName['id']])}?type={:input('type', 'get')}"></a>
                 <span class="am-btn am-btn-default am-icon-trash-o am-radius" data-del="{id: {$attrName.id}, url: '{:url('del')}', target:'del'}" title="删除"></span>
             </div>
         </td>

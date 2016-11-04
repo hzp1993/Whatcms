@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "qiniu/php-sdk",
-            "version": "v7.0.8",
+            "version": "v7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/qiniu/php-sdk.git",
-                "reference": "d1bca450b56d85beb7ba21f374a47bfeb59c288b"
+                "reference": "4b53b16783a5d153b0aad117125966c148edb7b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/qiniu/php-sdk/zipball/d1bca450b56d85beb7ba21f374a47bfeb59c288b",
-                "reference": "d1bca450b56d85beb7ba21f374a47bfeb59c288b",
+                "url": "https://api.github.com/repos/qiniu/php-sdk/zipball/4b53b16783a5d153b0aad117125966c148edb7b9",
+                "reference": "4b53b16783a5d153b0aad117125966c148edb7b9",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "sdk",
                 "storage"
             ],
-            "time": "2016-07-19 06:18:08"
+            "time": "2016-10-25 12:58:33"
         },
         {
             "name": "topthink/framework",
@@ -64,12 +64,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "0674c774981517e48911eafc0f1102a8fe56a022"
+                "reference": "e8b05a76422612cf0b52dfa66beffa799813fb06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/0674c774981517e48911eafc0f1102a8fe56a022",
-                "reference": "0674c774981517e48911eafc0f1102a8fe56a022",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/e8b05a76422612cf0b52dfa66beffa799813fb06",
+                "reference": "e8b05a76422612cf0b52dfa66beffa799813fb06",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2016-10-24 06:15:09"
+            "time": "2016-10-31 08:25:30"
         },
         {
             "name": "topthink/think-captcha",

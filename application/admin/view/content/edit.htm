@@ -1,6 +1,7 @@
 {extend name="common/index"/}
 {block name="content"}
-<form action="{:url('')}" method="POST" role="form" class="am-form" id="am-form-validator">
+{php} $actions = isset($item['id']) ? 'edit' : 'add';{/php}
+<form action="{:url($actions)}" method="POST" role="form" class="am-form" id="am-form-validator">
     <input type="hidden" name="data[id]" value="{$item.id|default=''}">
     <input type="hidden" name="data[type]" value="{$item.type|default=input('type', 'get')}">
     <div class="am-tabs am-margin am-u-md-12 " data-am-tabs>
